@@ -1,0 +1,12 @@
+ultralytics
+transformers
+networkx
+kaggle
+kagglehub
+pyyaml
+pyvis
+supervision
+roboflow
+matplotlib
+numpy
+pandas
