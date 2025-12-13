@@ -1,8 +1,48 @@
 # dl4cv-final-project
 Final Project for COMS 4995 
 
+# Retail Scene Graph: Beverage Detection & Analysis
+
+A Computer Vision pipeline that detects retail products (beverages), classifies them using **Visual Anchors (CLIP)**, and generates a **Semantic Scene Graph** to understand product placement (e.g., "Coke is Next To Pepsi").
+
+## Architecture
+
+1.  **Detection (The "Eye"):** * Model: **RT-DETR (Large)** / YOLOv11
+    * Task: Localize all bottles/cans on the shelf.
+    * Training Data: SKU-110K Dataset.
+2.  **Classification (The "Brain"):**
+    * Model: **CLIP (ViT-B/32)**
+    * Method: **Visual Anchor Matching (Few-Shot)**. We compare detected crops against a memory bank of reference images (Coca-Cola, Sprite, etc.) rather than training a new classifier.
+3.  **Graph Construction (The "Logic"):**
+    * Logic: Spatial algorithms calculate `next_to`, `above`, and `below` relationships.
+    * Output: Interactive Knowledge Graph.
+
+##  Setup & Installation
+
+### Environment
+Clone the repo and install dependencies:
+```bash
+pip install -r requirements.txt
+
+# Tuning and Training-
+1) Run datasetup notebook
+
+2) Run tuning notebooks
+
+3) Run final training notebook
 
 
+# Sample yaml file that gets created-
+(ideally delete it in a new environment)
+names:
+  0: product
+path: /workspace/dl4cv-final-project/data/datasets/thedatasith/sku110k-annotations/versions/14/SKU110K_fixed
+test: images/test
+train: images/train
+val: images/val
+
+
+# Directory-
 retail_scene_graph/
 ├── runs/
 │   ├── tune/

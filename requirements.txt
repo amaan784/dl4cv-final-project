@@ -1,12 +1,32 @@
-ultralytics
-transformers
-networkx
+# --- Core ML & DL ---
+torch>=2.0.0
+torchvision>=0.15.0
+numpy
+pandas
+opencv-python-headless
+Pillow
+scikit-learn
+
+# --- Object Detection & Vision Models ---
+ultralytics>=8.2.0        # YOLO & RT-DETR
+transformers>=4.30.0      # CLIP (Hugging Face)
+supervision               # Utilities for drawing boxes
+roboflow                  # For downloading datasets (if needed)
+
+# --- Graph & Visualization ---
+networkx>=3.0
+pyvis>=0.3.2              # Interactive Graph Visualization
+matplotlib
+
+# --- Data Management ---
 kaggle
 kagglehub
 pyyaml
-pyvis
-supervision
-roboflow
-matplotlib
-numpy
-pandas
+
+# --- App Framework ---
+streamlit>=1.30.0
+watchdog                  # For Streamlit hot-reloading
+
+
+# other
+tqdm
