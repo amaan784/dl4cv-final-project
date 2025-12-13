@@ -1,0 +1,17 @@
+{
+  "total_detections": 23000,
+  "total_classified": 15606,
+  "total_unknown": 7394,
+  "classification_rate": 0.6785217391304348,
+  "average_confidence": 0.8003697377261908,
+  "median_confidence": 0.7956730425357819,
+  "products_detected": {
+    "Pepsi": 2435,
+    "Mountain Dew": 1382,
+    "Fanta": 4011,
+    "Coca-Cola": 4732,
+    "Sprite": 2361,
+    "7 Up": 685
+  },
+  "total_relationships": 1591618
+}
