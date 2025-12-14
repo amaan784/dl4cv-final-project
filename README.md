@@ -1,9 +1,9 @@
 # dl4cv-final-project
 Final Project for COMS 4995 
 
-# Retail Scene Graph: Beverage Detection & Analysis
+# Spatial and Semantic Scene Graph: Beverage
 
-A Computer Vision pipeline that detects retail products (beverages), classifies them using **Visual Anchors (CLIP)**, and generates a **Semantic Scene Graph** to understand product placement (e.g., "Coke is Next To Pepsi").
+A Computer Vision pipeline that detects retail products **(using RT-DETR / YOLO)**, classifies them using **Visual Anchors (CLIP)**, and generates a **Spatial and Semantic Scene Graph** to understand product placement (e.g., "Coke is Next To Pepsi").
 
 ## Architecture
 
@@ -19,20 +19,27 @@ A Computer Vision pipeline that detects retail products (beverages), classifies 
 
 ##  Setup & Installation
 
+### Datasets and Weights
+
+Download them from this folder: https://drive.google.com/drive/folders/1ZdQjYFMLYUOi4Ke2uEdluPrw5M1Lx8Zv?usp=sharing
+and just paste the weights and data folder in the root directory of this repo
+
 ### Environment
 Clone the repo and install dependencies:
-```bash
-pip install -r requirements.txt
+
+`pip install -r requirements.txt`
+
+## Run stramlit -
+`python -m streamlit run app.py`
 
 # Tuning and Training-
-1) Run datasetup notebook
+1) Run datasetup notebook for downloading SKU110K (Notebook 00)
 
-2) Run tuning notebooks
+2) Run tuning notebooks (Notebooks 03, 04, 05)
 
-3) Run final training notebook
+3) Run final training notebook (01 based on results from step 2)
 
-
-# Sample yaml file that gets created-
+## Sample yaml file that gets created after running notebook 00-
 (ideally delete it in a new environment)
 names:
   0: product
@@ -41,19 +48,28 @@ test: images/test
 train: images/train
 val: images/val
 
+# CLIP few shot learing-
+
+Run notebook 2 
+
+# Main pipeline testing and evaluation-
+
+Run notebooks 06 and then run 07 for the main or overall pipeline / app testing 
+
 
 # Directory-
+```bash
 retail_scene_graph/
 ├── runs/
 │   ├── tune/
 │   │   ├── yolo_nano_tuning/       # The Tuning Experiment
 │   │   │   ├── tune_scatter_plots.png
-│   │   │   ├── best_hyperparameters.yaml  <-- THE GOLD!
+│   │   │   ├── best_hyperparameters.yaml
 │   │   │   └── weights/            # Checkpoints for the best tuned model
 │   │   ├── rtdetr_tuning/
 │   │   └── ...
 ├── data/                        # ALL input data goes here
-│   ├── sku110k/                 # (Optional) Raw SKU-110K data if downloaded locally
+│   ├── datasets/                
 │   ├── roboflow_refrescos/      # The Classification dataset (Visual Anchors)
 │   │   ├── train/               # Used for Visual Memory
 │   │   ├── valid/               # Used for Visual Memory
@@ -73,14 +89,16 @@ retail_scene_graph/
 │   ├── tuning.py                # Hyperparameter tuning logic (Native Ultralytics)
 │   └── utils.py                 # Helpers (e.g., NumpyEncoder for JSON saving)
 │
-├── notebooks/                   # Your Experiments (The "Lab")
-│   ├── 01_Detection_Training.ipynb    # Training RT-DETR on RunPod
-│   ├── 02_Pipeline_Logic.ipynb        # Developing the pipeline (Detect -> Classify -> Graph)
-│   ├── 03_Final_Evaluation.ipynb      # Generating Metrics & Report Plots
-│   ├── 04_Tune_YOLO_Nano.ipynb        # Hyperparameter Tuning for YOLO Nano
-│   ├── 05_Tune_YOLO_Large.ipynb       # Hyperparameter Tuning for YOLO Large
-│   └── 06_Tune_RTDETR.ipynb           # Hyperparameter Tuning for RT-DETR
-│
+├── notebooks/                   # Experiments
+│   ├── 00_Data_Setup.ipynb            # Datasetup for SKU110-K
+│   ├── 01_Detection_Training.ipynb    # Training RT-DETR / YOLO
+│   ├── 02_CLIP_Visual_Anchors.ipynb   # CLIP few shot learning
+│   ├── 03_Tune_YOLO_Nano.ipynb        # Hyperparameter Tuning for YOLO Nano
+│   ├── 04_Tune_YOLO_Large.ipynb       # Hyperparameter Tuning for YOLO Large
+│   └── 05_Tune_RTDETR.ipynb           # Hyperparameter Tuning for RT-DETR
+│   ├── 06_Pipeline_Logic.ipynb        # Developing the pipeline (Detect -> Classify -> Graph)
+│   ├── 07_Final_Evaluation.ipynb      # Generating Metrics & Report Plots
+
 ├── app.py                       # The Streamlit Dashboard
 ├── requirements.txt             # List of libraries (ultralytics, pyvis, etc.)
 └── README.md                    # Project documentation
