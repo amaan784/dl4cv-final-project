@@ -19,7 +19,7 @@ from src.config import TARGET_BRANDS
 def setup_page():
     """Configures the Streamlit page settings and custom CSS."""
     st.set_page_config(
-        page_title="Semantic and Spatial Scene Graph for Retail Bevergaes",
+        page_title="Semantic and Spatial Scene Graph in Retail",
         page_icon="🥤",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -160,9 +160,9 @@ def main():
     detector, clip_model, clip_processor, ref_features, ref_labels = load_pipeline_models(weights_path, model_type)
 
     # UI Header
-    st.title("🥤 Retail Knowledge Graph")
-    st.markdown("### Transform Shelf Images into Structured Data")
-
+    st.title("Semantic and Spatial Scene Graph for Retail Beverages")
+    st.markdown("### Transform Shelf Images into Knowledge Graphs using Object Detection, CLIP Recognition, and Spatial Reasoning")
+    st.markdown("#### Note: This app works only with images of retail shelves containing coca-cola, sprite, pepsi, 7up, fanta, mountain dew.")
     # File Uploader
     uploaded_file = st.file_uploader("Upload a shelf image...", type=['jpg', 'jpeg', 'png', 'webp'])
 

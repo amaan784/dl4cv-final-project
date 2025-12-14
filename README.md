@@ -22,7 +22,9 @@ A Computer Vision pipeline that detects retail products **(using RT-DETR / YOLO)
 ### Datasets and Weights
 
 Download them from this folder: https://drive.google.com/drive/folders/1ZdQjYFMLYUOi4Ke2uEdluPrw5M1Lx8Zv?usp=sharing
-and just paste the weights and data folder in the root directory of this repo
+and just paste in the weights and data folder in the root directory of this repo
+
+Create a 'weights' and 'data' folder if they do not exist.
 
 ### Environment
 Clone the repo and install dependencies:
@@ -31,6 +33,8 @@ Clone the repo and install dependencies:
 
 ## Run stramlit -
 `python -m streamlit run app.py`
+ 
+The UI will open up. Select the model and the configurations on the left panel. Input an image of beverages on retail shelf and click "Run Analysis Pipeline".
 
 # Tuning and Training-
 1) Run datasetup notebook for downloading SKU110K (Notebook 00)
@@ -48,7 +52,7 @@ test: images/test
 train: images/train
 val: images/val
 
-# CLIP few shot learing-
+# CLIP few shot recognition-
 
 Run notebook 2 
 
