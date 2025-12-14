@@ -45,12 +45,14 @@ The UI will open up. Select the model and the configurations on the left panel. 
 
 ## Sample yaml file that gets created after running notebook 00-
 (ideally delete it in a new environment)
+```bash
 names:
   0: product
 path: /workspace/dl4cv-final-project/data/datasets/thedatasith/sku110k-annotations/versions/14/SKU110K_fixed
 test: images/test
 train: images/train
 val: images/val
+```
 
 # CLIP few shot recognition-
 
@@ -78,7 +80,7 @@ retail_scene_graph/
 │   │   ├── train/               # Used for Visual Memory
 │   │   ├── valid/               # Used for Visual Memory
 │   │   └── test/                # Used for Golden Set Evaluation
-│   └── test_images/             # Your 5-10 specific shelf images for the demo
+│   └── test_images/             # 5-10 specific shelf images for the demo
 │
 ├── weights/                         # Trained Model Artifacts
 │   ├── rtdetr best model.pt         # Best fine-tuned RT-DETR checkpoint
@@ -110,3 +112,4 @@ retail_scene_graph/
 ├── app.py                       # The Streamlit Dashboard
 ├── requirements.txt             # List of libraries (ultralytics, pyvis, etc.)
 └── README.md                    # Project documentation
+```
