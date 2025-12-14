@@ -80,9 +80,13 @@ retail_scene_graph/
 │   │   └── test/                # Used for Golden Set Evaluation
 │   └── test_images/             # Your 5-10 specific shelf images for the demo
 │
-├── weights/                     # Trained Model Artifacts
-│   ├── best_rtdetr.pt           # Your fine-tuned RT-DETR model
-│   └── best_yolo.pt             # (Optional) Your YOLO model if you kept it
+├── weights/                         # Trained Model Artifacts
+│   ├── rtdetr best model.pt         # Best fine-tuned RT-DETR checkpoint
+│   ├── rtdetr initial finetuning.pt # Initial RT-DETR fine-tuning checkpoint
+│   ├── yolov11l best model.pt       # Best YOLOv11l checkpoint
+│   ├── yolov11l initial finetuning.pt # Initial YOLOv11l fine-tuning checkpoint
+│   ├── visual_anchors.pkl           # Visual anchor embeddings
+│   └── old_visual_anchors.pkl       # Previous version of anchor embeddings
 │
 ├── src/                         # The "Brain" (Shared Python Modules)
 │   ├── __init__.py              # Makes this folder importable
