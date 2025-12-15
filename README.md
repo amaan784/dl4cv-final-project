@@ -140,3 +140,7 @@ retail_scene_graph/
 ├── requirements.txt        # Python Dependencies
 └── README.md               # This file
 ```
+
+# Citations
+
+- please look in the project report in the documents folder
