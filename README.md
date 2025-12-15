@@ -1,6 +1,10 @@
 # dl4cv-final-project
 Final Project for COMS 4995 
 
+
+Repo link: https://github.com/amaan784/dl4cv-final-project/tree/main
+
+
 # Spatial and Semantic Scene Graph Generation in Retail
 
 A Computer Vision pipeline that detects retail products **(using RT-DETR / YOLO)**, classifies them using **Visual Anchors (CLIP)**, and constucts / generates a **Spatial and Semantic Scene Graph** to understand product placement (e.g., "Coke is Next To Pepsi").
