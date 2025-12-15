@@ -1,20 +1,20 @@
 # dl4cv-final-project
 Final Project for COMS 4995 
 
-# Spatial and Semantic Scene Graph: Beverage
+# Spatial and Semantic Scene Graph Generation in Retail
 
-A Computer Vision pipeline that detects retail products **(using RT-DETR / YOLO)**, classifies them using **Visual Anchors (CLIP)**, and generates a **Spatial and Semantic Scene Graph** to understand product placement (e.g., "Coke is Next To Pepsi").
+A Computer Vision pipeline that detects retail products **(using RT-DETR / YOLO)**, classifies them using **Visual Anchors (CLIP)**, and constucts / generates a **Spatial and Semantic Scene Graph** to understand product placement (e.g., "Coke is Next To Pepsi").
 
 ## Architecture
 
-1.  **Detection (The "Eye"):** * Model: **RT-DETR (Large)** / YOLOv11
+1.  **Detection (The "Eye"):** * Model: RT-DETR (Large) or YOLOv11
     * Task: Localize all bottles/cans on the shelf.
     * Training Data: SKU-110K Dataset.
 2.  **Classification (The "Brain"):**
-    * Model: **CLIP (ViT-B/32)**
-    * Method: **Visual Anchor Matching (Few-Shot)**. We compare detected crops against a memory bank of reference images (Coca-Cola, Sprite, etc.) rather than training a new classifier.
+        * Model: **CLIP (ViT-B/32)**
+        * Method: **Retrieval-Based Classification (Visual Anchors)**. We compare detected crops against a memory bank of ~500 reference images per class (Coca-Cola, Sprite, etc.) using cosine similarity, rather than training a generic classifier.
 3.  **Graph Construction (The "Logic"):**
-    * Logic: Spatial algorithms calculate `next_to`, `above`, and `below` relationships.
+    * Logic: Spatial algorithms calculate `next_to` and `left_of` relationships. `above` is currenttly disabled but can be infereed in the `left_of` graph.
     * Output: Interactive Knowledge Graph.
 
 ##  Setup & Installation
@@ -44,7 +44,7 @@ The UI will open up. Select the model and the configurations on the left panel. 
 3) Run final training notebook (01 based on results from step 2)
 
 ## Sample yaml file that gets created after running notebook 00-
-(ideally delete it in a new environment)
+(ideally delete it in a new environment and re run the notebook)
 ```bash
 names:
   0: product
@@ -54,33 +54,56 @@ train: images/train
 val: images/val
 ```
 
-# CLIP few shot recognition-
+##Run Streamlit DemoTo launch the interactive dashboard:
 
-Run notebook 2 
+```bash
+python -m streamlit run app.py
 
-# Main pipeline testing and evaluation-
+```
 
-Run notebooks 06 and then run 07 for the main or overall pipeline / app testing 
+The UI will open in your browser. Select the model and configurations on the left panel, upload an image of a retail shelf, and click **"Run Analysis Pipeline"**.
+
+App.py contains the entire logic for UI and model and pipeline inference code.
+
+## Training & Tuning Workflow
+If you wish to reproduce the training results:
+
+1. **Data Setup:** Run `notebooks/00_Data_Setup.ipynb` to download and format the SKU-110K dataset.
+2. **Hyperparameter Tuning:** Run Notebooks `03`, `04`, or `05` to perform genetic evolution searching for optimal params.
+3. **Final Training:** Run `notebooks/01_Detection_Training.ipynb` using the best hyperparameters found in Step 2.
+
+## CLIP Recognition 
+To rebuild the visual anchor database:
+
+1. Run `notebooks/02_CLIP_Visual_Anchors.ipynb`. This will process the beverages datasets and save a new `.pkl` embedding file.
+
+## Evaluation 
+To generate the metrics used in the report:
+
+1. Run `notebooks/06_Pipeline_Logic.ipynb` to test individual components.
+2. Run `notebooks/07_Final_Evaluation.ipynb` to generate the final mAP and Accuracy scores on the test set.
 
 
 # Directory-
 ```bash
 retail_scene_graph/
-├── runs/
+├── runs/ (in .gitignore file)
 │   ├── tune/
 │   │   ├── yolo_nano_tuning/       # The Tuning Experiment
 │   │   │   ├── tune_scatter_plots.png
 │   │   │   ├── best_hyperparameters.yaml
 │   │   │   └── weights/            # Checkpoints for the best tuned model
 │   │   ├── rtdetr_tuning/
-│   │   └── ...
-├── data/                        # ALL input data goes here
+│      └── ...
+├── data/  (in .gitignore file)   # ALL input data goes here
 │   ├── datasets/                
 │   ├── roboflow_refrescos/      # The Classification dataset (Visual Anchors)
 │   │   ├── train/               # Used for Visual Memory
 │   │   ├── valid/               # Used for Visual Memory
 │   │   └── test/                # Used for Golden Set Evaluation
 │   └── test_images/             # 5-10 specific shelf images for the demo
+│
+├── documents/                    # contains the project report and presentation slides
 │
 ├── weights/                         # Trained Model Artifacts
 │   ├── rtdetr best model.pt         # Best fine-tuned RT-DETR checkpoint
@@ -90,7 +113,7 @@ retail_scene_graph/
 │   ├── visual_anchors.pkl           # Visual anchor embeddings
 │   └── old_visual_anchors.pkl       # Previous version of anchor embeddings
 │
-├── src/                         # The "Brain" (Shared Python Modules)
+├── src/                         # Shared Python Modules
 │   ├── __init__.py              # Makes this folder importable
 │   ├── config.py                # Store lists like 'TARGET_BRANDS' here
 │   ├── detection.py             # RT-DETR / YOLO inference logic
@@ -99,7 +122,7 @@ retail_scene_graph/
 │   ├── tuning.py                # Hyperparameter tuning logic (Native Ultralytics)
 │   └── utils.py                 # Helpers (e.g., NumpyEncoder for JSON saving)
 │
-├── notebooks/                   # Experiments
+├── notebooks/              # Jupyter Notebooks for Experiments
 │   ├── 00_Data_Setup.ipynb            # Datasetup for SKU110-K
 │   ├── 01_Detection_Training.ipynb    # Training RT-DETR / YOLO
 │   ├── 02_CLIP_Visual_Anchors.ipynb   # CLIP few shot learning
@@ -108,8 +131,8 @@ retail_scene_graph/
 │   └── 05_Tune_RTDETR.ipynb           # Hyperparameter Tuning for RT-DETR
 │   ├── 06_Pipeline_Logic.ipynb        # Developing the pipeline (Detect -> Classify -> Graph)
 │   ├── 07_Final_Evaluation.ipynb      # Generating Metrics & Report Plots
-
-├── app.py                       # The Streamlit Dashboard
-├── requirements.txt             # List of libraries (ultralytics, pyvis, etc.)
-└── README.md                    # Project documentation
+│
+├── app.py                  # Streamlit Dashboard Entry Point
+├── requirements.txt        # Python Dependencies
+└── README.md               # This file
 ```
