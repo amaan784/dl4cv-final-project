@@ -35,7 +35,7 @@ Clone the repo and install dependencies:
 
 `pip install -r requirements.txt`
 
-## Run stramlit -
+## Run streamlit -
 `python -m streamlit run app.py`
  
 The UI will open up. Select the model and the configurations on the left panel. Input an image of beverages on retail shelf and click "Run Analysis Pipeline".
